@@ -22,7 +22,6 @@ export const CartProvider: React.FC = ({ children }) => {
   function addToCart(item: Item) {
     setItems([...items, item]);
 
-    
     setTotalPrice(totalPrice + (item.price || 0));
   }
   

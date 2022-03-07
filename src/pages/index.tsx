@@ -28,7 +28,6 @@ const Home: NextPage = () => {
         <Title>Calculadora de Craft</Title>
 
         <select onChange={handleChange} placeholder="Selecione o item">
-          <option>Todas</option>
           {items.map((item, index) => (
             <option key={index} value={item.id}>
               {item.name}

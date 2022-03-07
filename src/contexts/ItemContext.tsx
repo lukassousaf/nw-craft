@@ -16,6 +16,8 @@ const items: Item[] = [
     id: "2",
     name: "Luva Leve",
     components: [
+      { name: "Modificador de Perk", quantity: 1 },
+      { name: "Modificador de Atributo", quantity: 10 },
       { name: "Asmódeo", quantity: 5 },
       { name: "Fio de Fênix", quantity: 2 },
     ],
