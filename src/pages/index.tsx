@@ -2,8 +2,11 @@ import Head from "next/head";
 import React, { ChangeEvent } from "react";
 import type { NextPage } from "next";
 import { useCart } from "../contexts/CartContext";
-import { ItemRecipe } from "../components/ItemRecipe";
+import { ItemRecipe } from "../components/custom/ItemRecipe";
 import { useItemRecipe } from "../contexts/ItemContext";
+import { Button } from "../components/core/Button";
+import { CenterLayout } from "../layouts/CenterLayout";
+import { Title } from "../components/core/Title";
 
 const Home: NextPage = () => {
   const { items, selectedItem, selectItem } = useItemRecipe();
@@ -21,7 +24,9 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div>
+      <CenterLayout>
+        <Title>Calculadora de Craft</Title>
+
         <select onChange={handleChange} placeholder="Selecione o item">
           <option>Todas</option>
           {items.map((item, index) => (
@@ -33,14 +38,11 @@ const Home: NextPage = () => {
 
         <ItemRecipe item={selectedItem} />
 
-        <button
-          className="bg-red-500 rounded px-3 py-2"
-          onClick={() => addToCart(selectedItem)}
-        >
+        <Button onClick={() => addToCart(selectedItem)}>
           Adicionar ao carrinho
-        </button>
+        </Button>
         <p>Preço total do craft: {totalPrice}</p>
-      </div>
+      </CenterLayout>
     </div>
   );
 };
