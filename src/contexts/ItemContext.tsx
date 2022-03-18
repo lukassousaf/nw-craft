@@ -5,6 +5,7 @@ const items: Item[] = [
   {
     id: "1",
     name: "Bota Leve",
+    quantity: 1,
     components: [
       { name: "Modificador de Perk", quantity: 1 },
       { name: "Modificador de Atributo", quantity: 10 },
@@ -15,6 +16,7 @@ const items: Item[] = [
   {
     id: "2",
     name: "Luva Leve",
+    quantity: 1,
     components: [
       { name: "Modificador de Perk", quantity: 1 },
       { name: "Modificador de Atributo", quantity: 10 },
@@ -27,13 +29,17 @@ const items: Item[] = [
 interface ItemRecipeState {
   selectedItem: Item;
   items: Item[];
+  quantity: number;
+  setQuantity: (quant: number) => void;
   selectItem: (id: string) => void;
   changeItemComponentPrice: (position: number, price: number) => void;
 }
 
 const initialState: ItemRecipeState = {
   items,
-  selectedItem: {} as Item,
+  quantity: 1,
+  setQuantity: () => {},
+  selectedItem: { quantity: 1 } as Item,
   selectItem: () => {},
   changeItemComponentPrice: () => {},
 };
@@ -43,11 +49,20 @@ const ItemRecipeContext = createContext<ItemRecipeState>(
 );
 
 export const ItemRecipeProvider: React.FC = ({ children }) => {
-  const [selectedItem, setSelectedItem] = useState({} as Item);
+  const [selectedItem, setSelectedItem] = useState(
+    initialState.selectedItem as Item
+  );
+  const [quantity, setQuantity] = useState(initialState.quantity);
 
   function selectItem(id: string) {
     const item = items.filter((item) => item.id === id)[0];
     setSelectedItem(item);
+
+    setQuantity(item.quantity);
+  }
+
+  function setItemQuantity(quantity: number) {
+    setSelectedItem({ ...selectedItem, quantity });
   }
 
   function changeItemComponentPrice(position: number, price: number) {
@@ -84,6 +99,8 @@ export const ItemRecipeProvider: React.FC = ({ children }) => {
         selectedItem: selectedItem,
         selectItem,
         changeItemComponentPrice,
+        quantity,
+        setQuantity: setItemQuantity,
       }}
     >
       {children}

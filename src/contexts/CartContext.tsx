@@ -22,9 +22,9 @@ export const CartProvider: React.FC = ({ children }) => {
   function addToCart(item: Item) {
     setItems([...items, item]);
 
-    setTotalPrice(totalPrice + (item.price || 0));
+    setTotalPrice(totalPrice + (item.price || 0) * item.quantity);
   }
-  
+
   return (
     <CartContext.Provider value={{ items, totalPrice, addToCart }}>
       {children}

@@ -18,7 +18,6 @@ export const ItemRecipe: React.FC<Props> = ({ item }) => {
             position={index}
           />
         ))}
-      <p>Preço: {item?.price}</p>
     </div>
   );
 };

@@ -4,6 +4,7 @@ export interface Item {
   name: string;
   price?: number;
   components: ItemComponent[];
+  quantity: number;
 }
 
 // Componente de Item - Asmódeo, Fio de fênix, Couro Rúnico

@@ -1,18 +1,31 @@
 import Head from "next/head";
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, useState } from "react";
 import type { NextPage } from "next";
 import { useCart } from "../contexts/CartContext";
 import { ItemRecipe } from "../components/custom/ItemRecipe";
 import { useItemRecipe } from "../contexts/ItemContext";
 import { SolidButton } from "../components/core/SolidButton";
-import { AddItem } from "../components/core/AddItem";
+import { CounterButton } from "../components/core/CounterButton";
 import { Input } from "../components/core/Input";
 import { CenterLayout } from "../layouts/CenterLayout";
 import { Title } from "../components/core/Title";
 
 const Home: NextPage = () => {
-  const { items, selectedItem, selectItem } = useItemRecipe();
-  const { totalPrice, addToCart } = useCart();
+  const { selectedItem, selectItem, quantity, setQuantity } = useItemRecipe();
+  const { totalPrice, addToCart, items } = useCart();
+  const [value, setValue] = useState("");
+
+  function add() {
+    if (selectedItem.quantity < 1) return;
+
+    setQuantity(selectedItem.quantity + 1);
+  }
+
+  function remove() {
+    if (selectedItem.quantity <= 1) return;
+
+    setQuantity(selectedItem.quantity - 1);
+  }
 
   return (
     <div>
@@ -25,22 +38,36 @@ const Home: NextPage = () => {
       <CenterLayout>
         <Title>Calculadora de Craft</Title>
 
+        {console.log(items)}
+
         <Input
           type="text"
           placeholder="Pesquisar..."
+          onChange={(event: React.ChangeEvent<any>) =>
+            setValue(event?.target.value)
+          }
+          onBlur={() => selectItem(value)}
           className="rounded-md input-border  bg-theme-gray-400 focus:outline-0 text-white"
         />
 
         <div className="bg-theme-gray-200  rounded-md py-3 px-4 mt-10">
           <ItemRecipe item={selectedItem} />
-
-          {/* <p>Preço total do craft: {totalPrice}</p> */}
           <div className="flex flex-wrap w-full">
-            <AddItem></AddItem>
-            <SolidButton onClick={() => addToCart(selectedItem)}>
+            <CounterButton onClickAdd={add} onClickRemove={remove}>
+              {selectedItem.quantity}
+            </CounterButton>
+            <SolidButton
+              onClick={() => {
+                addToCart(selectedItem);
+                setQuantity(1);
+              }}
+            >
               Adicionar
+              <span>{(selectedItem.price || 0) * selectedItem.quantity}G</span>
             </SolidButton>
           </div>
+
+          <p className="text-white">Preço total: {totalPrice}</p>
         </div>
       </CenterLayout>
     </div>
