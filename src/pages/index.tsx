@@ -4,17 +4,15 @@ import type { NextPage } from "next";
 import { useCart } from "../contexts/CartContext";
 import { ItemRecipe } from "../components/custom/ItemRecipe";
 import { useItemRecipe } from "../contexts/ItemContext";
-import { Button } from "../components/core/Button";
+import { SolidButton } from "../components/core/SolidButton";
+import { AddItem } from "../components/core/AddItem";
+import { Input } from "../components/core/Input";
 import { CenterLayout } from "../layouts/CenterLayout";
 import { Title } from "../components/core/Title";
 
 const Home: NextPage = () => {
   const { items, selectedItem, selectItem } = useItemRecipe();
   const { totalPrice, addToCart } = useCart();
-
-  function handleChange(event: ChangeEvent<HTMLSelectElement>) {
-    selectItem(event.target.value || "1");
-  }
 
   return (
     <div>
@@ -27,20 +25,23 @@ const Home: NextPage = () => {
       <CenterLayout>
         <Title>Calculadora de Craft</Title>
 
-        <select onChange={handleChange} placeholder="Selecione o item">
-          {items.map((item, index) => (
-            <option key={index} value={item.id}>
-              {item.name}
-            </option>
-          ))}
-        </select>
+        <Input
+          type="text"
+          placeholder="Pesquisar..."
+          className="rounded-md input-border  bg-theme-gray-400 focus:outline-0 text-white"
+        />
 
-        <ItemRecipe item={selectedItem} />
+        <div className="bg-theme-gray-200  rounded-md py-3 px-4 mt-10">
+          <ItemRecipe item={selectedItem} />
 
-        <Button onClick={() => addToCart(selectedItem)}>
-          Adicionar ao carrinho
-        </Button>
-        <p>Preço total do craft: {totalPrice}</p>
+          {/* <p>Preço total do craft: {totalPrice}</p> */}
+          <div className="flex flex-wrap w-full">
+            <AddItem></AddItem>
+            <SolidButton onClick={() => addToCart(selectedItem)}>
+              Adicionar
+            </SolidButton>
+          </div>
+        </div>
       </CenterLayout>
     </div>
   );

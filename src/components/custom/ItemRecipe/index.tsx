@@ -8,8 +8,8 @@ interface Props {
 
 export const ItemRecipe: React.FC<Props> = ({ item }) => {
   return (
-    <div>
-      <p>Receita do Item {item.name}</p>
+    <div className="mt-10">
+      {/* <p>{item.name}</p> */}
       {item?.components?.length > 0 &&
         item.components.map((component, index) => (
           <ItemComponentCraft
