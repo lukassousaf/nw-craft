@@ -1,3 +1,5 @@
+const plugin = require('tailwindcss/plugin')
+
 module.exports = {
     content: [
         "./src/pages/**/*.{js,ts,jsx,tsx}",
@@ -26,15 +28,37 @@ module.exports = {
                 "theme-gray-900": "#232323",
                 "theme-light-gray": "#7C7C7C",
                 "theme-green": "#70D756",
+                "theme-name": '#16CB1A',
                 "theme-discord": "#5765EE",
+                "green-card": "rgba(7,255,47,.6)",
+                "green-card2": "rgba(0,0,0,.4) ",
             },
             borderRadius: {
                 "input-border": "5px",
             },
             borderColor: {
                 "border-gray": "#353943",
+                "border-green": "rgb(7,255,47)",
             },
+
         },
     },
-    plugins: [],
-};
+    plugins: [
+        plugin(function({
+            addUtilities
+        }) {
+            addUtilities({
+                '.scrollbar-hide': {
+
+
+                    /* Safari and Chrome */
+                    '&::-webkit-scrollbar': {
+                        background: 'transparent',
+                        width: '0px',
+
+                    }
+                }
+            })
+        })
+    ],
+}

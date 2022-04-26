@@ -9,6 +9,10 @@ import { CounterButton } from "../components/core/CounterButton";
 import { Input } from "../components/core/Input";
 import { CenterLayout } from "../layouts/CenterLayout";
 import { Title } from "../components/core/Title";
+import { ItemDetail } from "../components/core/ItemDetail";
+import { SideBar } from "../components/core/SideBar";
+import { ListItem } from "../components/core/ListItem/index";
+import { TotalPrice } from "components/core/TotalPrice";
 
 const Home: NextPage = () => {
   const { selectedItem, selectItem, quantity, setQuantity } = useItemRecipe();
@@ -36,39 +40,60 @@ const Home: NextPage = () => {
       </Head>
 
       <CenterLayout>
-        <Title>Calculadora de Craft</Title>
+        <div className="flex flex-col w-full h-screen">
+          <Title>Calculadora de Craft</Title>
 
-        {console.log(items)}
+          <Input
+            type="text"
+            placeholder="Pesquisar..."
+            onChange={(event: React.ChangeEvent<any>) =>
+              setValue(event?.target.value)
+            }
+            onBlur={() => selectItem(value)}
+            className="rounded-md input-border  bg-theme-gray-400 focus:outline-0 text-white"
+          />
 
-        <Input
-          type="text"
-          placeholder="Pesquisar..."
-          onChange={(event: React.ChangeEvent<any>) =>
-            setValue(event?.target.value)
-          }
-          onBlur={() => selectItem(value)}
-          className="rounded-md input-border  bg-theme-gray-400 focus:outline-0 text-white"
-        />
+          <div className="bg-theme-gray-200 rounded-md py-3 px-4 mt-10">
+            <ItemRecipe item={selectedItem} />
+            <div className=" p-2 mt-2 flex justify-between 	">
+              <CounterButton onClickAdd={add} onClickRemove={remove}>
+                {selectedItem.quantity}
+              </CounterButton>
+              <SolidButton
+                onClick={() => {
+                  addToCart({
+                    ...selectedItem,
+                    id: String(Math.floor(Math.random() * 500)),
+                  });
+                  setQuantity(1);
+                }}
+              >
+                Adicionar
+                <span>
+                  {(selectedItem.price || 0) * selectedItem.quantity}G
+                </span>
+              </SolidButton>
+            </div>
 
-        <div className="bg-theme-gray-200  rounded-md py-3 px-4 mt-10">
-          <ItemRecipe item={selectedItem} />
-          <div className="flex flex-wrap w-full">
-            <CounterButton onClickAdd={add} onClickRemove={remove}>
-              {selectedItem.quantity}
-            </CounterButton>
-            <SolidButton
-              onClick={() => {
-                addToCart(selectedItem);
-                setQuantity(1);
-              }}
-            >
-              Adicionar
-              <span>{(selectedItem.price || 0) * selectedItem.quantity}G</span>
-            </SolidButton>
+            <p className="text-white">Preço total: {totalPrice}</p>
           </div>
-
-          <p className="text-white">Preço total: {totalPrice}</p>
         </div>
+        <SideBar>
+          <div className="mx-10 mt-10 ">
+            <p className="text-white text-3xl ">CARRINHO</p>
+            <p className="text-gray-600 text-sm ">RESUMO DOS CRAFTS</p>
+          </div>
+          <div className=" flex-1  overflow-scroll scrollbar-hide">
+            {items.map((item) => {
+              return (
+                <div className="flex flex-col justify-center items-center">
+                  <ListItem item={item} />
+                </div>
+              );
+            })}
+          </div>
+          <TotalPrice totalPrice={totalPrice} />
+        </SideBar>
       </CenterLayout>
     </div>
   );

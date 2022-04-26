@@ -6,7 +6,7 @@ export const Input: React.FC<Props> = ({ className, ...props }) => {
   return (
     <input
       className={`
-        rounded bg-theme-gray-400 px-4 py-2 outline-none 
+        rounded bg-theme-gray-400 px-4 py-2 outline-none flex
         font-sans text-white placeholder:text-theme-gray-100 
         font-medium ${className}`}
       {...props}

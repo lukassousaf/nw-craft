@@ -19,17 +19,32 @@ export const ItemComponentCraft: React.FC<Props> = ({
   }
 
   return (
-    <div className="flex p-2 flex-col">
+    <div className="flex p-2 flex-col ">
       <div className="flex flex-row">
         <p className="mr-2">{component.quantity}</p>
         <p className="mr-2">{component.name}</p>
       </div>
-      <Input
-        className="mr-2"
-        placeholder="Preço"
-        value={component?.price || 0}
-        onChange={handleChange}
-      />
+
+      <div className="flex flex-1">
+        {component.url && (
+          <img
+            src={component.url}
+            alt="item image"
+            className={
+              component.type === 1
+                ? "max-h-12 	bg-gradient-to-b from-green-card2 to-fuchsia-700 border-1 border-fuchsia-700"
+                : "max-h-12 	bg-gradient-to-b from-green-card2 to-green-card border-1 border-border-green"
+            }
+          />
+        )}
+
+        <Input
+          className="flex flex-1 ml-4"
+          placeholder="Preço"
+          value={component?.price || 0}
+          onChange={handleChange}
+        />
+      </div>
     </div>
   );
 };
